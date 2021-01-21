@@ -1,4 +1,5 @@
 import React, { createContext, useContext } from 'react';
+
 import { useProductReducer } from './reducers';
 
 const StoreContext = createContext();
@@ -8,7 +9,9 @@ const StoreProvider = ({ value = [], ...props }) => {
     const [state, dispatch] = useProductReducer({
         products: [],
         categories: [],
-        currentCategory: ''
+        currentCategory: '',
+        cart: [],
+        cartOpen: false
     });
 
     // use this to confirm it works
