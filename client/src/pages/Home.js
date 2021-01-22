@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-
 import Cart from '../components/Cart';
 import CategoryMenu from "../components/CategoryMenu";
 import ProductList from "../components/ProductList";
+import React from "react";
 
 const Home = () => {
   return (

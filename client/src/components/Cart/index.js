@@ -1,14 +1,25 @@
 import './style.css';
 
+import { ADD_MULTIPLE_TO_CART, TOGGLE_CART } from '../../utils/actions';
+import React, { useEffect } from 'react';
+
 import Auth from '../../utils/auth';
 import CartItem from '../CartItem';
-import React from 'react';
-import { TOGGLE_CART } from '../../utils/actions';
+import { idbPromise } from '../../utils/helpers';
 import { useStoreContext } from '../../utils/GlobalState';
 
 const Cart = () => {
     const [state, dispatch] = useStoreContext();
-    console.log(state);
+
+    useEffect(() => {
+        async function getCart() {
+            const cart = await idbPromise('cart', 'get');
+            dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
+        };
+        if (!state.cart.length) {
+            getCart();
+        }
+    }, [state.cart.length, dispatch]);
 
     function toggleCart() {
         dispatch({ type: TOGGLE_CART });

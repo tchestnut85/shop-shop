@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 
 import Cart from '../components/Cart';
 import { QUERY_PRODUCTS } from "../utils/queries";
+import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import { useQuery } from '@apollo/react-hooks';
 import { useStoreContext } from '../utils/GlobalState';
@@ -53,8 +54,21 @@ function Detail() {
         type: UPDATE_PRODUCTS,
         products: data.products
       });
+
+      data.products.forEach((product) => {
+        idbPromise('products', 'put', product);
+      });
     }
-  }, [products, data, dispatch, id]);
+    // get cache from idb
+    else if (!loading) {
+      idbPromise('products', 'get').then((indexedProducts) => {
+        dispatch({
+          type: UPDATE_PRODUCTS,
+          products: indexedProducts
+        });
+      });
+    }
+  }, [products, data, loading, dispatch, id]);
 
   return (
     <>
