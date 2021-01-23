@@ -6,21 +6,24 @@ import {
 } from '../utils/actions';
 import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 
 import Cart from '../components/Cart';
 import { QUERY_PRODUCTS } from "../utils/queries";
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import { useQuery } from '@apollo/react-hooks';
-import { useStoreContext } from '../utils/GlobalState';
 
 function Detail() {
 
-  const [state, dispatch] = useStoreContext();
+  const state = useSelector(state => state);
+  const { products, cart } = state;
+
+  const dispatch = useDispatch();
+
   const { id } = useParams();
   const [currentProduct, setCurrentProduct] = useState({});
   const { loading, data } = useQuery(QUERY_PRODUCTS);
-  const { products, cart } = state;
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);

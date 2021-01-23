@@ -10,12 +10,20 @@ import {
     UPDATE_PRODUCTS
 } from './actions';
 
-import { useReducer } from 'react';
+// import { useReducer } from 'react';
 
-export const reducer = (state, action) => {
+const initialState = {
+    products: [],
+    categories: [],
+    currentCategory: '',
+    cartOpen: false,
+    cart: []
+};
+
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         // if action type value is the value of 'UPDATE_PRODUCTS', 
-        // return a new state  obejct with an updated products array
+        // return a new state obejct with an updated products array
         case UPDATE_PRODUCTS:
             return {
                 ...state,
@@ -82,6 +90,8 @@ export const reducer = (state, action) => {
     }
 };
 
-export function useProductReducer(initialState) {
-    return useReducer(reducer, initialState);
-}
+export default reducer;
+
+// export function useProductReducer(initialState) {
+//     return useReducer(reducer, initialState);
+// }
