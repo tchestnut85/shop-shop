@@ -10,8 +10,6 @@ import {
     UPDATE_PRODUCTS
 } from './actions';
 
-// import { useReducer } from 'react';
-
 const initialState = {
     products: [],
     categories: [],
@@ -91,7 +89,3 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
-
-// export function useProductReducer(initialState) {
-//     return useReducer(reducer, initialState);
-// }
