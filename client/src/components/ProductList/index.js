@@ -1,15 +1,15 @@
-import React, {useEffect} from "react";
-import {useDispatch, useSelector} from 'react-redux'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 
 import ProductItem from "../ProductItem";
 import { QUERY_PRODUCTS } from "../../utils/queries";
-import {UPDATE_PRODUCTS} from '../../utils/actions';
-import { idbPromise } from '../../utils/helpers'
+import { UPDATE_PRODUCTS } from '../../utils/actions';
+import { idbPromise } from '../../utils/helpers';
 import spinner from "../../assets/spinner.gif";
 import { useQuery } from '@apollo/react-hooks';
 
 function ProductList() {
-  
+
   const state = useSelector(state => state);
   const { currentCategory } = state;
   const dispatch = useDispatch();
@@ -26,8 +26,8 @@ function ProductList() {
 
       // let's also take each product and save it to IndexedDB
       data.products.forEach((product) => {
-        idbPromise('products', 'put', product)
-      }) 
+        idbPromise('products', 'put', product);
+      });
     } else if (!loading) {
       // since we're offline, get all of the data from the 'products' store
       idbPromise('products', 'get').then((products) => {
@@ -35,8 +35,8 @@ function ProductList() {
         dispatch({
           type: UPDATE_PRODUCTS,
           products: products
-        })
-      })
+        });
+      });
     }
   }, [data, loading, dispatch]);
 
@@ -53,22 +53,22 @@ function ProductList() {
       <h2>Our Products:</h2>
       {state.products.length ? (
         <div className="flex-row">
-            {filterProducts().map(product => (
-                <ProductItem
-                  key= {product._id}
-                  _id={product._id}
-                  image={product.image}
-                  name={product.name}
-                  price={product.price}
-                  quantity={product.quantity}
-                />
-            ))}
+          {filterProducts().map(product => (
+            <ProductItem
+              key={product._id}
+              _id={product._id}
+              image={product.image}
+              name={product.name}
+              price={product.price}
+              quantity={product.quantity}
+            />
+          ))}
         </div>
       ) : (
-        <h3>You haven't added any products yet!</h3>
-      )}
-      { loading ? 
-      <img src={spinner} alt="loading" />: null}
+          <h3>Loading Products...</h3>
+        )}
+      { loading ?
+        <img src={spinner} alt="loading" /> : null}
     </div>
   );
 }
